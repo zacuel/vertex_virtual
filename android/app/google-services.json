@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "667304224852",
+    "project_id": "vertex-virtual",
+    "storage_bucket": "vertex-virtual.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667304224852:android:faecbace21aa56db8725c1",
+        "android_client_info": {
+          "package_name": "com.example.vertex_virtual"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV0pn2jfGU33a7jXpU6t9D0eOGUxllAz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
