@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
         ),
         //TODO max upvotes
         actions: [
-          OutlinedButton(
+          ElevatedButton(
             onPressed: () => navigateToCreateArticle(context),
             child: const Text('post'),
           ),

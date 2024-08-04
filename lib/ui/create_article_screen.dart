@@ -64,6 +64,7 @@ class _CreateArticleScreenState extends ConsumerState<CreateArticleScreen> {
             const Text("add a title"),
             TextField(
               controller: _titleController,
+              maxLength: 60,
             ),
             const SizedBox(
               height: 30,

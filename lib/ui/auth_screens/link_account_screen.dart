@@ -36,10 +36,12 @@ class _LinkAccountScreenState extends ConsumerState<LinkAccountScreen> {
           children: [
             const Text("email"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _emailController,
             ),
             const Text("password"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _passwordController,
               obscureText: true,
             ),

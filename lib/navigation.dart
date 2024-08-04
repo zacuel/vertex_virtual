@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vertex_virtual/ui/auth_screens/link_account_screen.dart';
-import 'package:vertex_virtual/ui/create_article.dart';
+import 'package:vertex_virtual/ui/create_article_screen.dart';
 import 'package:vertex_virtual/ui/set_theme_page.dart';
 
 import 'model/article.dart';

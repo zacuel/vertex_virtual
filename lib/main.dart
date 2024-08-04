@@ -42,7 +42,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             }
             return const AuthScreen();
           },
-          error: (error, _) => ErrorText(error.toString()),
+          error: (error, _) => ErrorPage(error.toString()),
           loading: () => const Loader()),
     );
   }

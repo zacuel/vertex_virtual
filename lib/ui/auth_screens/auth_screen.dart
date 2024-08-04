@@ -62,10 +62,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           children: [
             const Text("email"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _emailController,
             ),
             const Text("password"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _passwordController,
               obscureText: true,
             ),
@@ -91,14 +93,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           children: [
             const Text("email"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _emailController,
             ),
             const Text("password"),
             TextField(
+              textAlign: TextAlign.center,
               controller: _passwordController,
               obscureText: true,
             ),
             const Text("re-enter password"),
+            TextField(
+              textAlign: TextAlign.center,
+              controller: _passCheckController,
+              obscureText: true,
+            ),
             ElevatedButton(onPressed: _signUp, child: const Text("Sign Up")),
             TextButton(
                 onPressed: () {
