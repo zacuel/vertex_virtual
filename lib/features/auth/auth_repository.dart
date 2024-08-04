@@ -83,4 +83,17 @@ class AuthRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  FutureEitherFailureOr<void> linkAnonAcount(String email, String password) async {
+    try {
+      final emailCred = EmailAuthProvider.credential(email: email, password: password);
+      await _auth.currentUser?.linkWithCredential(emailCred);
+      await _people.doc(_auth.currentUser!.uid).update({'isAuthenticated': true});
+      return right(null);
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vertex_virtual/features/auth/auth_repository.dart';
 import 'package:vertex_virtual/navigation.dart';
 
 import '../features/articles/articles_controller.dart';
@@ -10,11 +11,32 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final person = ref.watch(personProvider)!;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
+        leading: PopupMenuButton(
+          onSelected: (value) {
+            if (value == 'authenticate') {
+              navigateToLinkAccount(context);
+            } else if (value == 'theming') {
+              navigateToTheming(context);
+            }
+          },
+          itemBuilder: (context) {
+            return [
+              if (!person.isAuthenticated) const PopupMenuItem(value: "authenticate", child: Text("create account")),
+              const PopupMenuItem(value: "theming", child: Text('set theme')),
+            ];
+          },
+          icon: const Icon(Icons.person),
+        ),
         //TODO max upvotes
-        actions: [TextButton(onPressed: () => navigateToCreateArticle(context), child: const Text('post'))],
+        actions: [
+          OutlinedButton(
+            onPressed: () => navigateToCreateArticle(context),
+            child: const Text('post'),
+          ),
+        ],
       ),
       body: ref.watch(articleFeedProvider).when(
           data: (data) {

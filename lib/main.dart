@@ -6,7 +6,7 @@ import 'package:vertex_virtual/features/auth/auth_repository.dart';
 import 'package:vertex_virtual/ui/home_screen.dart';
 import 'package:vertex_virtual/utility/error_loader.dart';
 import 'features/articles/favorite_articles_provider.dart';
-import 'ui/auth_screen.dart';
+import 'ui/auth_screens/auth_screen.dart';
 import 'utility/firebase_tools/firebase_options.dart';
 
 void main() async {

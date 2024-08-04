@@ -40,4 +40,14 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     result.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
+
+  linkAccount(BuildContext context, String email, String password) async {
+    state = true;
+    final result = await _authRepository.linkAnonAcount(email, password);
+    state = false;
+    result.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'success');
+      Navigator.of(context).pop();
+    });
+  }
 }

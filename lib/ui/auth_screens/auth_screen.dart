@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vertex_virtual/features/auth/auth_controller.dart';
 
 import 'package:vertex_virtual/utility/error_loader.dart';
+import 'package:vertex_virtual/utility/snackybar.dart';
 
 enum AuthMode {
   intro,
@@ -21,12 +22,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   AuthMode _authMode = AuthMode.intro;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passCheckController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _passCheckController.dispose();
   }
 
   Widget get _screen0 => Center(
@@ -64,12 +67,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             const Text("password"),
             TextField(
               controller: _passwordController,
+              obscureText: true,
             ),
             ElevatedButton(
                 onPressed: () {
                   ref.read(authControllerProvider.notifier).logIn(context, _emailController.text, _passwordController.text);
                 },
-                child: const Text("Log in"))
+                child: const Text("Log in")),
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    _authMode = AuthMode.signUp;
+                  });
+                },
+                child: const Text("sign up instead"))
           ],
         ),
       );
@@ -85,15 +96,28 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             const Text("password"),
             TextField(
               controller: _passwordController,
+              obscureText: true,
             ),
-            ElevatedButton(
+            const Text("re-enter password"),
+            ElevatedButton(onPressed: _signUp, child: const Text("Sign Up")),
+            TextButton(
                 onPressed: () {
-                  ref.read(authControllerProvider.notifier).signUp(context, _emailController.text, _passwordController.text);
+                  setState(() {
+                    _authMode = AuthMode.logIn;
+                  });
                 },
-                child: const Text("Sign Up"))
+                child: const Text("log in instead"))
           ],
         ),
       );
+
+  void _signUp() {
+    if (_passwordController != _passCheckController) {
+      showSnackBar(context, "passwords do not match");
+    } else {
+      ref.read(authControllerProvider.notifier).signUp(context, _emailController.text, _passwordController.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
