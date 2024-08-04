@@ -5,7 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:vertex_virtual/model/person.dart';
 import 'package:vertex_virtual/utility/type_defs.dart';
 
-import '../utility/firebase_tools/firebase_providers.dart';
+import '../../utility/firebase_tools/firebase_providers.dart';
 
 final authStateChangeProvider = StreamProvider<User?>((ref) {
   final authRepo = ref.read(authRepositoryProvider);

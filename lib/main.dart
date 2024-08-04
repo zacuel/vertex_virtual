@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vertex_virtual/auth/auth_repository.dart';
+import 'package:vertex_virtual/features/auth/auth_repository.dart';
 import 'package:vertex_virtual/utility/error_loader.dart';
-import 'auth/auth_screen.dart';
+import 'ui/auth_screen.dart';
 import 'utility/firebase_tools/firebase_options.dart';
 
 void main() async {
