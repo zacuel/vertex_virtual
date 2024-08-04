@@ -13,6 +13,7 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
+        //TODO max upvotes
         actions: [TextButton(onPressed: () => navigateToCreateArticle(context), child: const Text('post'))],
       ),
       body: ref.watch(articleFeedProvider).when(
@@ -37,7 +38,9 @@ class HomeScreen extends ConsumerWidget {
                 }
                 final article = data[index - 1];
                 return ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    navigateToArticle(context, article);
+                  },
                   title: Text(article.title),
                   trailing: Text("${article.upvoteIds.length.toString()}  "),
                 );

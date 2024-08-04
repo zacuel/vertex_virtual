@@ -7,6 +7,8 @@ import 'package:vertex_virtual/utility/type_defs.dart';
 
 import '../../utility/firebase_tools/firebase_providers.dart';
 
+final personProvider = StateProvider<Person?>((ref) => null);
+
 final authStateChangeProvider = StreamProvider<User?>((ref) {
   final authRepo = ref.read(authRepositoryProvider);
   return authRepo.authStateChange;
@@ -29,6 +31,23 @@ class AuthRepository {
 
   CollectionReference get _people => _firestore.collection('people');
 
+    Stream<Person> getPersonData(String uid) {
+    return _people.doc(uid).snapshots().map((event) => Person.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+    void upvote(String uid, String articleId) async {
+    await _people.doc(uid).update({
+      'favoriteArticleIds': FieldValue.arrayUnion([articleId]),
+    });
+  }
+
+  void downvote(String uid, String articleId) async {
+    await _people.doc(uid).update({
+      'favoriteArticleIds': FieldValue.arrayRemove([articleId]),
+    });
+  }
+
+
   FutureEitherFailureOr<void> signUpAnon() async {
     try {
       final anonCredential = await _auth.signInAnonymously();
@@ -41,4 +60,6 @@ class AuthRepository {
       return left(Failure(e.toString()));
     }
   }
+
+
 }
