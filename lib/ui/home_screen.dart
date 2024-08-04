@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vertex_virtual/features/auth/auth_repository.dart';
+import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
 import 'package:vertex_virtual/navigation.dart';
 
 import '../features/articles/articles_controller.dart';
@@ -12,8 +13,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final person = ref.watch(personProvider)!;
+    final maxValue = ref.watch(maxVotesNotifierProvider);
     return Scaffold(
       appBar: AppBar(
+        title: Text(maxValue.toString()),
         leading: PopupMenuButton(
           onSelected: (value) {
             if (value == 'authenticate') {
