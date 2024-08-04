@@ -31,11 +31,11 @@ class AuthRepository {
 
   CollectionReference get _people => _firestore.collection('people');
 
-    Stream<Person> getPersonData(String uid) {
+  Stream<Person> getPersonData(String uid) {
     return _people.doc(uid).snapshots().map((event) => Person.fromMap(event.data() as Map<String, dynamic>));
   }
 
-    void upvote(String uid, String articleId) async {
+  void upvote(String uid, String articleId) async {
     await _people.doc(uid).update({
       'favoriteArticleIds': FieldValue.arrayUnion([articleId]),
     });
@@ -46,7 +46,6 @@ class AuthRepository {
       'favoriteArticleIds': FieldValue.arrayRemove([articleId]),
     });
   }
-
 
   FutureEitherFailureOr<void> signUpAnon() async {
     try {
@@ -61,5 +60,27 @@ class AuthRepository {
     }
   }
 
+  FutureEitherFailureOr<void> signUp(String email, String password) async {
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final person = Person(uid: userCredential.user!.uid, favoriteArticleIds: [], isAuthenticated: true);
+      await _people.doc(person.uid).set(person.toMap());
+      return right(null);
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 
+  FutureEitherFailureOr<void> logIn(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return right(null);
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }
