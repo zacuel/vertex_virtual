@@ -1,3 +1,5 @@
+//TODO attach userId to article in case of Nazis
+
 class Article {
   final String articleId;
   final String title;

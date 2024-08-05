@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vertex_virtual/features/auth/auth_repository.dart';
 import 'package:vertex_virtual/features/theme/color_theme_provider.dart';
 import 'package:vertex_virtual/max_votes_notifier.dart';
@@ -25,6 +26,22 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  @override
+  void initState() {
+    super.initState();
+    setTheme();
+  }
+
+  setTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool spDarkMode = prefs.getBool('darkMode') ?? false;
+    final Color spColor = Color(prefs.getInt('color') ?? Colors.purple.value);
+    Brightness brightness = spDarkMode ? Brightness.dark : Brightness.light;
+    ref.read(colorThemeProvider.notifier).update((state) => ColorScheme.fromSeed(seedColor: spColor, brightness: brightness));
+  }
+
   void getData(User data) async {
     final person = await ref.read(authRepositoryProvider).getPersonData(data.uid).first;
     ref.read(personProvider.notifier).update((state) => person);

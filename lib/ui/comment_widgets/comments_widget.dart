@@ -19,7 +19,7 @@ class CommentsWidget extends ConsumerWidget {
                   .map((e) => Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(border: Border.all()),
                           child: Builder(builder: (context) {
                             final comment = e.commentText;
