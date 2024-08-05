@@ -46,3 +46,4 @@ app.*.map.json
 # firebase stuff
 firebase_options.dart 
 
+secrets.md
