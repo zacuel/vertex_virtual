@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vertex_virtual/features/auth/auth_repository.dart';
+import 'package:vertex_virtual/features/theme/color_theme_provider.dart';
 import 'package:vertex_virtual/max_votes_notifier.dart';
 import 'package:vertex_virtual/navigation.dart';
 
@@ -25,6 +26,7 @@ class HomeScreen extends ConsumerWidget {
     final person = ref.watch(personProvider)!;
     final maxValue = ref.watch(maxVotesNotifierProvider);
     final favList = ref.watch(favoriteArticlesProvider);
+    final favColor = ref.watch(favoriteColorProvider);
     return Scaffold(
       appBar: AppBar(
         // title: Text("think"),
@@ -78,7 +80,9 @@ class HomeScreen extends ConsumerWidget {
                   );
                 }
                 final article = data[index - 1];
+                final isFav = favList.contains(article.articleId);
                 return ListTile(
+                  tileColor: isFav ? favColor.withOpacity(.2) : null,
                   onTap: () {
                     navigateToArticle(context, article);
                   },
