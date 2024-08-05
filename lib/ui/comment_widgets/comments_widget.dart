@@ -11,15 +11,20 @@ class CommentsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(articleCommentsProvider(articleId)).when(
         data: (articleComments) {
-          return Column(
-            children: articleComments
-                .map((e) => Column(
-                      children: [
-                        Text(e.commentText),
-                        const Divider(),
-                      ],
-                    ))
-                .toList(),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: articleComments
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(border: Border.all()),
+                          child: Text(e.commentText),
+                        ),
+                      ))
+                  .toList(),
+            ),
           );
         },
         error: (error, _) => ErrorText(error.toString()),

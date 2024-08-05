@@ -5,30 +5,41 @@ import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
 import 'package:vertex_virtual/navigation.dart';
 
 import '../features/articles/articles_controller.dart';
+import '../features/articles/favorite_articles_provider.dart';
 import '../utility/error_loader.dart';
+import '../utility/snackybar.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
+  _navToArticleCreation(BuildContext context, int upvoteListLength, int maxUpvotes) {
+    if (upvoteListLength < maxUpvotes) {
+      navigateToCreateArticle(context);
+    } else {
+      showSnackBar(context, 'max upvotes reached');
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final person = ref.watch(personProvider)!;
     final maxValue = ref.watch(maxVotesNotifierProvider);
+    final favList = ref.watch(favoriteArticlesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(maxValue.toString()),
+        // title: Text("think"),
         leading: PopupMenuButton(
           onSelected: (value) {
             if (value == 'authenticate') {
               navigateToLinkAccount(context);
-            } else if (value == 'theming') {
+            } else if (value == 'theme') {
               navigateToTheming(context);
             }
           },
           itemBuilder: (context) {
             return [
               if (!person.isAuthenticated) const PopupMenuItem(value: "authenticate", child: Text("create account")),
-              const PopupMenuItem(value: "theming", child: Text('set theme')),
+              const PopupMenuItem(value: "theme", child: Text('set theme')),
             ];
           },
           icon: const Icon(Icons.person),
@@ -36,7 +47,7 @@ class HomeScreen extends ConsumerWidget {
         //TODO max upvotes
         actions: [
           ElevatedButton(
-            onPressed: () => navigateToCreateArticle(context),
+            onPressed: () => _navToArticleCreation(context, favList.length, maxValue),
             child: const Text('post'),
           ),
         ],
@@ -50,15 +61,18 @@ class HomeScreen extends ConsumerWidget {
               itemCount: data.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return const Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Text('      title'), Text('score   ')],
-                      ),
-                      Divider(),
-                    ],
+                  return const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [Text('      title'), Text('score   ')],
+                        ),
+                        Divider(),
+                      ],
+                    ),
                   );
                 }
                 final article = data[index - 1];

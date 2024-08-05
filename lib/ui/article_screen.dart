@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vertex_virtual/ui/comment_widgets/add_comment_widget.dart';
 import 'package:vertex_virtual/ui/comment_widgets/comments_widget.dart';
+import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
 
 import '../features/articles/favorite_articles_provider.dart';
 import '../features/comments/comments_controller.dart';
@@ -40,12 +41,10 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
     });
   }
 
-  _vote(int listLength, bool isUpvote) {
+  _vote(int listLength, bool isUpvote, int maxVotes) {
     if (!isUpvote) {
       ref.read(favoriteArticlesProvider.notifier).toggleArticleFavoriteStatus(widget.article.articleId);
-    }
-    //TODO change post limit
-    else if (listLength < 5) {
+    } else if (listLength < maxVotes) {
       ref.read(favoriteArticlesProvider.notifier).toggleArticleFavoriteStatus(widget.article.articleId);
     } else {
       showSnackBar(context, 'Max Upvotes Reached');
@@ -59,11 +58,11 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   Widget build(BuildContext context) {
     final favList = ref.watch(favoriteArticlesProvider);
     final isFav = favList.contains(widget.article.articleId);
-
+    final maxVotes = ref.watch(maxVotesNotifierProvider);
     return Scaffold(
       floatingActionButton: _showVoteButton
           ? FloatingActionButton(
-              onPressed: () => _vote(favList.length, !isFav),
+              onPressed: () => _vote(favList.length, !isFav, maxVotes),
               child: Icon(isFav ? Icons.remove : Icons.thumb_up),
             )
           : null,
@@ -121,6 +120,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
                 height: 10,
               ),
               if (widget.article.content != null) Expanded(flex: 2, child: SingleChildScrollView(child: Text(widget.article.content!))),
+              //TODO configure so expanded works with no content
               if (_showComments) Expanded(flex: 1, child: CommentsWidget(widget.article.articleId)),
               if (_isCommenting) AddCommentWidget(commentFieldController: _commentController, changeComment: _addComment),
             ],
