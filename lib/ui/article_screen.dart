@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vertex_virtual/ui/comment_widgets/add_comment_widget.dart';
 import 'package:vertex_virtual/ui/comment_widgets/comments_widget.dart';
-import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
+import 'package:vertex_virtual/max_votes_notifier.dart';
 
 import '../features/articles/favorite_articles_provider.dart';
 import '../features/comments/comments_controller.dart';

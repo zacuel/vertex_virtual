@@ -43,4 +43,8 @@ class ArticlesRepository {
         'upvoteIds': FieldValue.arrayUnion([userId]),
       });
   }
+
+    Stream<Article> streamArticleById(String articleId) => _articles.doc(articleId).snapshots().map(
+        (event) => Article.fromMap(event.data() as Map<String, dynamic>),
+      );
 }

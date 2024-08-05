@@ -13,11 +13,9 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
 
 class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
-  final Ref _ref;
 
   AuthController({required AuthRepository authRepository, required Ref ref})
       : _authRepository = authRepository,
-        _ref = ref,
         super(false);
 
   goInAnonomously(BuildContext context) async {

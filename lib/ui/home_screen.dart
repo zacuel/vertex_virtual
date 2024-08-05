@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vertex_virtual/features/auth/auth_repository.dart';
-import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
+import 'package:vertex_virtual/max_votes_notifier.dart';
 import 'package:vertex_virtual/navigation.dart';
 
 import '../features/articles/articles_controller.dart';
@@ -34,17 +34,19 @@ class HomeScreen extends ConsumerWidget {
               navigateToLinkAccount(context);
             } else if (value == 'theme') {
               navigateToTheming(context);
+            } else if (value == 'favList') {
+              navigateToFavoritesFeed(context);
             }
           },
           itemBuilder: (context) {
             return [
               if (!person.isAuthenticated) const PopupMenuItem(value: "authenticate", child: Text("create account")),
               const PopupMenuItem(value: "theme", child: Text('set theme')),
+              const PopupMenuItem(value: "favList", child: Text('view your selections')),
             ];
           },
           icon: const Icon(Icons.person),
         ),
-        //TODO max upvotes
         actions: [
           ElevatedButton(
             onPressed: () => _navToArticleCreation(context, favList.length, maxValue),

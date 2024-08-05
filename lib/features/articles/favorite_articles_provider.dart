@@ -37,5 +37,12 @@ class FavoriteArticlesNotifier extends StateNotifier<List<String>> {
 
     void createListState(List<String> articleList) {
     state = articleList;
+
+    
+  }
+
+    void removeUponDiscoveredDeletion(String uid, String articleId) {
+    state = state.where((element) => element != articleId).toList();
+    _authRepository.downvote(uid, articleId);
   }
 }

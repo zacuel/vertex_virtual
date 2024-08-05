@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vertex_virtual/features/auth/auth_repository.dart';
-import 'package:vertex_virtual/utility/firebase_tools/max_votes_notifier.dart';
+import 'package:vertex_virtual/max_votes_notifier.dart';
 import 'package:vertex_virtual/ui/home_screen.dart';
 import 'package:vertex_virtual/utility/error_loader.dart';
 import 'features/articles/favorite_articles_provider.dart';
@@ -33,7 +33,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final accountin = ref.watch(maxVotesProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "think tank",

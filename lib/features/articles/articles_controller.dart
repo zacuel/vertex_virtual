@@ -9,6 +9,11 @@ import '../../utility/snackybar.dart';
 import 'articles_repository.dart';
 import 'favorite_articles_provider.dart';
 
+final articleByIdProvider = StreamProvider.family<Article, String>((ref, String articleId) {
+  final articlesController = ref.read(articlesControllerProvider.notifier);
+  return articlesController.streamArticleById(articleId);
+});
+
 
 final articleFeedProvider = StreamProvider<List<Article>>((ref) {
   final articlesController = ref.read(articlesControllerProvider.notifier);
@@ -55,4 +60,6 @@ class ArticlesController extends StateNotifier<bool> {
   }
 
   Stream<List<Article>> get articleFeed => _articlesRepository.articleFeed;
+
+    Stream<Article> streamArticleById(String articleId) => _articlesRepository.streamArticleById(articleId);
 }
